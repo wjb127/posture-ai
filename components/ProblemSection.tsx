@@ -1,126 +1,172 @@
 'use client'
 
-import React from 'react'
-import { AlertTriangle, Clock, TrendingDown, Users, Skull, Heart } from 'lucide-react'
+import React, { useState } from 'react'
+import { AlertTriangle, Clock, TrendingDown, Users, Heart, Zap } from 'lucide-react'
+import PreorderModal from './PreorderModal'
 
 export default function ProblemSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const problems = [
     {
-      icon: <Skull className="w-8 h-8 text-red-500" />,
-      title: "거북목 증후군",
-      description: "목뼈 C자 커브가 일직선으로 변형되어 신경과 혈관을 압박합니다",
-      stat: "성인 78%",
-      consequence: "두통, 어지럼증, 손 저림",
-      timeframe: "평균 5년 후 심각한 증상"
+      icon: <AlertTriangle className="w-8 h-8 text-red-600" />,
+      title: "목 디스크 진행",
+      description: "거북목 자세로 인한 경추 압박",
+      timeframe: "6개월 내 악화",
+      severity: "심각",
+      stats: "사무직 78% 경험"
     },
     {
-      icon: <TrendingDown className="w-8 h-8 text-orange-500" />,
-      title: "라운드 숄더",
-      description: "어깨가 앞으로 말려 흉곽을 압박하여 호흡량이 30% 감소합니다",
-      stat: "직장인 85%",
-      consequence: "만성 피로, 집중력 저하",
-      timeframe: "3년 내 호흡기 문제"
+      icon: <TrendingDown className="w-8 h-8 text-orange-600" />,
+      title: "어깨 불균형",
+      description: "한쪽 어깨가 올라가거나 말린 상태",
+      timeframe: "3개월 내 고착화",
+      severity: "중간",
+      stats: "재택근무자 85% 해당"
     },
     {
-      icon: <AlertTriangle className="w-8 h-8 text-yellow-500" />,
-      title: "허리 디스크",
-      description: "잘못된 앉은 자세로 디스크 내압이 서 있을 때보다 40% 증가합니다",
-      stat: "30대 60%",
-      consequence: "하지 마비, 수술 필요",
-      timeframe: "2년 내 디스크 탈출"
+      icon: <Users className="w-8 h-8 text-yellow-600" />,
+      title: "허리 통증",
+      description: "장시간 앉아있기로 인한 요추 변형",
+      timeframe: "1년 내 만성화",
+      severity: "높음",
+      stats: "성인 90% 경험"
     },
     {
-      icon: <Users className="w-8 h-8 text-purple-500" />,
-      title: "골반 비대칭",
-      description: "골반 틀어짐으로 다리 길이 차이가 생기고 무릎 관절이 손상됩니다",
-      stat: "여성 90%",
-      consequence: "관절염, 보행 장애",
-      timeframe: "10년 후 인공관절 수술"
+      icon: <Heart className="w-8 h-8 text-purple-600" />,
+      title: "순환 장애",
+      description: "자세 불량으로 인한 혈액순환 저하",
+      timeframe: "즉시 영향",
+      severity: "중간",
+      stats: "하루 6시간+ 좌식"
     }
   ]
 
-  return (
-    <section className="section-padding bg-gradient-to-br from-red-50 to-orange-50">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Clock className="w-4 h-4 mr-2" />
-            지금 이 순간에도 진행 중인 문제
-          </div>
-          
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-            <span className="text-red-600">매일 6시간</span> 앉아있는 당신,
-            <br />
-            <span className="gradient-text">몸이 보내는 경고 신호</span>를 무시하고 계신가요?
-          </h2>
-          
-          <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            "그냥 조금 결리는 것 뿐"이라고 생각하시나요? 
-            <br className="hidden md:block" />
-            <strong className="text-red-600">이미 당신의 몸은 돌이킬 수 없는 변화를 겪고 있습니다.</strong>
-          </p>
-        </div>
+  const handleCTAClick = () => {
+    setIsModalOpen(true)
+  }
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {problems.map((problem, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-xl p-6 shadow-lg card-hover group border-l-4 border-red-500"
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 group-hover:scale-110 transition-transform">
+  return (
+    <>
+      <section className="section-padding bg-gradient-to-br from-red-50 to-orange-50">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Clock className="w-4 h-4 mr-2" />
+              지금 이 순간에도 진행 중인 문제
+            </div>
+            
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              <span className="text-red-600">매일 6시간</span> 앉아있는 당신,
+              <br />
+              <span className="gradient-text">몸이 보내는 경고 신호</span>를 무시하고 계신가요?
+            </h2>
+            
+            <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
+              "그냥 조금 결리는 것 뿐"이라고 생각하시나요? 
+              <br className="hidden md:block" />
+              <strong className="text-red-600">이미 당신의 몸은 돌이킬 수 없는 변화를 겪고 있습니다.</strong>
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            {problems.map((problem, index) => (
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border-l-4 border-red-500">
+                <div className="mb-4">
                   {problem.icon}
                 </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-semibold text-secondary-900">
-                      {problem.title}
-                    </h3>
-                    <div className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
-                      {problem.stat}
-                    </div>
+                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                  {problem.title}
+                </h3>
+                <p className="text-secondary-600 text-sm mb-3">
+                  {problem.description}
+                </p>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-secondary-500">진행 속도</span>
+                    <span className="font-medium text-red-600">{problem.timeframe}</span>
                   </div>
-                  
-                  <p className="text-secondary-600 mb-4 text-sm leading-relaxed">
-                    {problem.description}
-                  </p>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center text-sm">
-                      <AlertTriangle className="w-4 h-4 text-orange-500 mr-2" />
-                      <span className="text-secondary-700 font-medium">결과: {problem.consequence}</span>
-                    </div>
-                    <div className="flex items-center text-sm">
-                      <Clock className="w-4 h-4 text-red-500 mr-2" />
-                      <span className="text-red-600 font-medium">{problem.timeframe}</span>
-                    </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-secondary-500">심각도</span>
+                    <span className="font-medium text-orange-600">{problem.severity}</span>
+                  </div>
+                  <div className="text-xs text-secondary-500 mt-2">
+                    📊 {problem.stats}
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl p-8 md:p-12 max-w-4xl mx-auto border border-red-200">
-            <div className="flex items-center justify-center mb-6">
-              <Heart className="w-12 h-12 text-red-500 mr-4" />
-              <h3 className="text-2xl md:text-3xl font-bold text-secondary-900">
-                시간이 지날수록 더 심각해집니다
+          {/* Story-driven case study */}
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm mb-16 max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <Zap className="w-4 h-4 mr-2" />
+                실제 사례: 개발자 김○○씨 (29세)
+              </div>
+              <h3 className="text-2xl font-bold text-secondary-900 mb-4">
+                "2년 전만 해도 괜찮았는데..."
               </h3>
             </div>
-            
-            <div className="bg-white rounded-lg p-6 mb-6 text-left">
-              <p className="text-secondary-700 leading-relaxed mb-4">
-                <strong>실제 사례:</strong> 개발자 A씨(29세)는 "목이 좀 뻣뻣하다" 정도로 생각했습니다. 
-                2년 후, 극심한 두통과 손 저림으로 병원을 찾았을 때는 이미 
-                <strong className="text-red-600"> 목뼈 2-3번 사이 디스크가 돌출된 상태</strong>였습니다.
-              </p>
-              <p className="text-secondary-700 leading-relaxed">
-                의사는 말했습니다: <em>"진작 자세 교정을 했다면 충분히 예방할 수 있었던 문제입니다."</em>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h4 className="font-semibold text-red-600 mb-3">2년 전 (2022년)</h4>
+                <div className="bg-green-50 rounded-lg p-4">
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                      가끔 목이 뻣뻣한 정도
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                      스트레칭으로 금세 회복
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                      운동 후 컨디션 좋음
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-semibold text-red-600 mb-3">현재 (2024년)</h4>
+                <div className="bg-red-50 rounded-lg p-4">
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                      매일 아침 목 통증으로 기상
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                      두통과 어깨 결림 일상화
+                    </li>
+                    <li className="flex items-center">
+                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                      <strong>목 디스크 진단 (C5-C6)</strong>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 p-6 bg-yellow-50 rounded-lg border border-yellow-200">
+              <p className="text-yellow-800 font-medium text-center">
+                💡 <strong>의사 소견:</strong> "2년 전에 교정했다면 3주면 충분했을 텐데, 
+                지금은 최소 6개월 치료가 필요합니다."
               </p>
             </div>
+          </div>
+
+          {/* Urgency with concrete numbers */}
+          <div className="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-6">
+              <span className="text-red-600">지금 확인하지 않으면</span>
+              <br />
+              당신도 같은 길을 걷게 됩니다
+            </h3>
             
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               <div className="text-center bg-white rounded-lg p-4">
@@ -143,12 +189,21 @@ export default function ProblemSection() {
               </p>
             </div>
             
-            <button className="btn-primary mx-auto">
+            <button 
+              onClick={handleCTAClick}
+              className="btn-primary mx-auto"
+            >
               내 자세 상태 긴급 점검하기
             </button>
           </div>
         </div>
-      </div>
-    </section>
-      )
-  } 
+      </section>
+
+      <PreorderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        service="PosturAI"
+      />
+    </>
+  )
+} 

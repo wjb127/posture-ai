@@ -1,9 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Brain, Eye, Target, BarChart3, Shield, Zap } from 'lucide-react'
+import PreorderModal from './PreorderModal'
 
 export default function FeaturesSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
   const features = [
     {
       icon: <Brain className="w-8 h-8 text-primary-600" />,
@@ -43,81 +46,90 @@ export default function FeaturesSection() {
     }
   ]
 
-  return (
-    <section className="section-padding bg-gradient-to-br from-gray-50 to-white">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-            <span className="gradient-text">PosturAI</span>만의 
-            특별한 기능들
-          </h2>
-          <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            최첨단 AI 기술과 사용자 친화적인 인터페이스로 
-            <br className="hidden md:block" />
-            누구나 쉽게 자세 교정을 시작할 수 있습니다.
-          </p>
-        </div>
+  const handleCTAClick = () => {
+    setIsModalOpen(true)
+  }
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-2xl p-8 shadow-lg card-hover group border border-gray-100"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-gray-50 rounded-2xl mb-6 group-hover:scale-110 transition-transform">
-                {feature.icon}
+  return (
+    <>
+      <section className="section-padding bg-gradient-to-br from-gray-50 to-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              <span className="gradient-text">PosturAI</span>만의 
+              특별한 기능들
+            </h2>
+            <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
+              최첨단 AI 기술과 사용자 친화적인 인터페이스로 
+              <br className="hidden md:block" />
+              누구나 쉽게 자세 교정을 시작할 수 있습니다.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {features.map((feature, index) => (
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+                <div className="mb-4">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-secondary-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-secondary-600 mb-4">
+                  {feature.description}
+                </p>
+                <ul className="space-y-2">
+                  {feature.details.map((detail, idx) => (
+                    <li key={idx} className="flex items-center text-sm text-secondary-500">
+                      <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2"></div>
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <h3 className="text-xl font-semibold text-secondary-900 mb-3">
-                {feature.title}
+            ))}
+          </div>
+
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 md:p-12 text-white">
+              <h3 className="text-2xl md:text-3xl font-bold mb-4">
+                지금 바로 체험해보세요
               </h3>
-              
-              <p className="text-secondary-600 mb-4 leading-relaxed">
-                {feature.description}
+              <p className="text-primary-100 mb-6 text-lg">
+                복잡한 가입 절차 없이 웹캠만 켜면 바로 시작할 수 있습니다.
               </p>
               
-              <ul className="space-y-2">
-                {feature.details.map((detail, detailIndex) => (
-                  <li key={detailIndex} className="flex items-center text-sm text-secondary-500">
-                    <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-3"></div>
-                    {detail}
-                  </li>
-                ))}
-              </ul>
+              <div className="grid md:grid-cols-3 gap-6 mt-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold mb-2">1분</div>
+                  <p className="text-sm text-primary-100">빠른 분석 시간</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold mb-2">95%</div>
+                  <p className="text-sm text-primary-100">분석 정확도</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold mb-2">24/7</div>
+                  <p className="text-sm text-primary-100">언제든 이용 가능</p>
+                </div>
+              </div>
+              
+              <button 
+                onClick={handleCTAClick}
+                className="mt-8 bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                무료로 시작하기
+              </button>
             </div>
-          ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 md:p-12 text-white">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              지금 바로 체험해보세요
-            </h3>
-            <p className="text-primary-100 mb-6 text-lg">
-              복잡한 가입 절차 없이 웹캠만 켜면 바로 시작할 수 있습니다.
-            </p>
-            
-            <div className="grid md:grid-cols-3 gap-6 mt-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold mb-2">1분</div>
-                <p className="text-sm text-primary-100">빠른 분석 시간</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold mb-2">95%</div>
-                <p className="text-sm text-primary-100">분석 정확도</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold mb-2">24/7</div>
-                <p className="text-sm text-primary-100">언제든 이용 가능</p>
-              </div>
-            </div>
-            
-            <button className="mt-8 bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
-              무료로 시작하기
-            </button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <PreorderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        service="PosturAI"
+      />
+    </>
   )
 } 

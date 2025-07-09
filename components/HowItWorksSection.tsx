@@ -1,9 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Camera, Scan, Dumbbell, TrendingUp, ArrowRight } from 'lucide-react'
+import PreorderModal from './PreorderModal'
 
 export default function HowItWorksSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  
   const steps = [
     {
       number: "01",
@@ -35,59 +38,107 @@ export default function HowItWorksSection() {
     }
   ]
 
-  return (
-    <section className="section-padding bg-white">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-            간단한 4단계로 
-            <span className="gradient-text"> 자세 교정 시작</span>
-          </h2>
-          <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-            복잡한 과정 없이 누구나 쉽게 시작할 수 있습니다. 
-            <br className="hidden md:block" />
-            지금 바로 당신의 자세 개선 여정을 시작해보세요.
-          </p>
-        </div>
+  const handleCTAClick = () => {
+    setIsModalOpen(true)
+  }
 
-        <div className="relative">
-          {/* Desktop view */}
-          <div className="hidden lg:block">
-            <div className="grid grid-cols-4 gap-8">
+  return (
+    <>
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              간단한 4단계로 
+              <span className="gradient-text"> 자세 교정 시작</span>
+            </h2>
+            <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
+              복잡한 과정 없이 누구나 쉽게 시작할 수 있습니다. 
+              <br className="hidden md:block" />
+              지금 바로 당신의 자세 개선 여정을 시작해보세요.
+            </p>
+          </div>
+
+          <div className="relative">
+            {/* Desktop view */}
+            <div className="hidden lg:block">
+              <div className="grid grid-cols-4 gap-8">
+                {steps.map((step, index) => (
+                  <div key={index} className="relative">
+                    <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow group">
+                      <div className="text-center">
+                        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-100 rounded-full mb-4 group-hover:scale-110 transition-transform">
+                          <span className="text-primary-600 font-bold text-sm">{step.number}</span>
+                        </div>
+                        <div className="mb-4">
+                          {step.icon}
+                        </div>
+                        <h3 className="text-lg font-semibold text-secondary-900 mb-3">
+                          {step.title}
+                        </h3>
+                        <p className="text-secondary-600 text-sm mb-4">
+                          {step.description}
+                        </p>
+                        <ul className="space-y-1">
+                          {step.details.map((detail, idx) => (
+                            <li key={idx} className="text-xs text-secondary-500 flex items-center justify-center">
+                              <div className="w-1 h-1 bg-primary-500 rounded-full mr-2"></div>
+                              {detail}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    {/* Arrow between steps */}
+                    {index < steps.length - 1 && (
+                      <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <div className="bg-primary-100 rounded-full p-2">
+                          <ArrowRight className="w-4 h-4 text-primary-600" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Mobile view */}
+            <div className="lg:hidden">
               {steps.map((step, index) => (
-                <div key={index} className="relative">
-                  <div className="bg-white rounded-2xl p-8 shadow-lg card-hover border border-gray-100 text-center">
-                    <div className="text-4xl font-bold text-gray-200 mb-4">
-                      {step.number}
+                <div key={index} className="mb-8">
+                  <div className="bg-white rounded-2xl p-6 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-100 rounded-full">
+                          <span className="text-primary-600 font-bold text-sm">{step.number}</span>
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <div className="mb-3">
+                          {step.icon}
+                        </div>
+                        <h3 className="text-lg font-semibold text-secondary-900 mb-2">
+                          {step.title}
+                        </h3>
+                        <p className="text-secondary-600 text-sm mb-3">
+                          {step.description}
+                        </p>
+                        <ul className="space-y-1">
+                          {step.details.map((detail, idx) => (
+                            <li key={idx} className="text-xs text-secondary-500 flex items-center">
+                              <div className="w-1 h-1 bg-primary-500 rounded-full mr-2"></div>
+                              {detail}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    
-                    <div className="flex items-center justify-center w-16 h-16 bg-gray-50 rounded-2xl mb-6 mx-auto">
-                      {step.icon}
-                    </div>
-                    
-                    <h3 className="text-xl font-semibold text-secondary-900 mb-3">
-                      {step.title}
-                    </h3>
-                    
-                    <p className="text-secondary-600 mb-4 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                    
-                    <ul className="space-y-2">
-                      {step.details.map((detail, detailIndex) => (
-                        <li key={detailIndex} className="flex items-center justify-center text-xs text-secondary-500">
-                          <div className="w-1 h-1 bg-primary-500 rounded-full mr-2"></div>
-                          {detail}
-                        </li>
-                      ))}
-                    </ul>
                   </div>
                   
-                  {/* Arrow between steps */}
                   {index < steps.length - 1 && (
-                    <div className="absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                    <div className="flex justify-center py-4">
                       <div className="bg-primary-100 rounded-full p-2">
-                        <ArrowRight className="w-4 h-4 text-primary-600" />
+                        <ArrowRight className="w-4 h-4 text-primary-600 transform rotate-90" />
                       </div>
                     </div>
                   )}
@@ -96,77 +147,41 @@ export default function HowItWorksSection() {
             </div>
           </div>
 
-          {/* Mobile view */}
-          <div className="lg:hidden space-y-8">
-            {steps.map((step, index) => (
-              <div key={index} className="relative">
-                <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                  <div className="flex items-start gap-6">
-                    <div className="flex-shrink-0">
-                      <div className="text-3xl font-bold text-gray-200 mb-2">
-                        {step.number}
-                      </div>
-                      <div className="flex items-center justify-center w-12 h-12 bg-gray-50 rounded-xl">
-                        {step.icon}
-                      </div>
-                    </div>
-                    
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-secondary-900 mb-3">
-                        {step.title}
-                      </h3>
-                      
-                      <p className="text-secondary-600 mb-4 leading-relaxed">
-                        {step.description}
-                      </p>
-                      
-                      <ul className="space-y-2">
-                        {step.details.map((detail, detailIndex) => (
-                          <li key={detailIndex} className="flex items-center text-sm text-secondary-500">
-                            <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-3"></div>
-                            {detail}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Arrow between steps */}
-                {index < steps.length - 1 && (
-                  <div className="flex justify-center py-4">
-                    <div className="bg-primary-100 rounded-full p-2">
-                      <ArrowRight className="w-4 h-4 text-primary-600 transform rotate-90" />
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-gray-50 to-primary-50 rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
-              지금 바로 시작해보세요
-            </h3>
-            <p className="text-secondary-600 mb-6 text-lg">
-              1분이면 충분합니다. 복잡한 가입 절차 없이 바로 자세 분석을 받아보세요.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary flex items-center justify-center">
-                <Camera className="w-5 h-5 mr-2" />
-                무료로 시작하기
-              </button>
+          <div className="mt-16 text-center">
+            <div className="bg-gradient-to-r from-gray-50 to-primary-50 rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
+              <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
+                지금 바로 시작해보세요
+              </h3>
+              <p className="text-secondary-600 mb-6 text-lg">
+                1분이면 충분합니다. 복잡한 가입 절차 없이 바로 자세 분석을 받아보세요.
+              </p>
               
-              <button className="btn-secondary">
-                데모 영상 보기
-              </button>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={handleCTAClick}
+                  className="btn-primary flex items-center justify-center"
+                >
+                  <Camera className="w-5 h-5 mr-2" />
+                  무료로 시작하기
+                </button>
+                
+                <button 
+                  onClick={handleCTAClick}
+                  className="btn-secondary"
+                >
+                  데모 영상 보기
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <PreorderModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        service="PosturAI"
+      />
+    </>
   )
 } 
