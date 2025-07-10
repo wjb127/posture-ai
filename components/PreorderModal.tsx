@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { X, Mail, CheckCircle, AlertCircle, Gift, Clock } from 'lucide-react'
+import { trackButtonClick } from '@/lib/analytics'
 
 interface PreorderModalProps {
   isOpen: boolean
@@ -53,6 +54,11 @@ export default function PreorderModal({ isOpen, onClose, service }: PreorderModa
 
       if (response.ok) {
         setSubmitStatus('success')
+        
+        // 구글애즈 전환 추적 추가
+        const { trackPreorderConversion } = await import('@/lib/analytics')
+        trackPreorderConversion(email)
+        
         setTimeout(() => {
           onClose()
           setSubmitStatus('idle')

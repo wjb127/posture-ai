@@ -1,24 +1,17 @@
 import type { Metadata } from 'next'
 import React from 'react'
+import { Noto_Sans_KR } from 'next/font/google'
 import './globals.css'
 
+const notoSansKR = Noto_Sans_KR({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
-  title: 'PosturAI - AI로 바로잡는 당신의 자세',
-  description: 'AI 기반 자세 분석으로 건강한 생활습관을 만들어보세요. 실시간 자세 교정, 맞춤 운동 추천, 개선 추적까지.',
-  keywords: ['자세교정', 'AI', '헬스케어', '운동', '건강', '허리통증', '거북목'],
-  authors: [{ name: 'PosturAI Team' }],
-  robots: 'index, follow',
-  openGraph: {
-    title: 'PosturAI - AI로 바로잡는 당신의 자세',
-    description: 'AI 기반 자세 분석으로 건강한 생활습관을 만들어보세요.',
-    type: 'website',
-    locale: 'ko_KR',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'PosturAI - AI로 바로잡는 당신의 자세',
-    description: 'AI 기반 자세 분석으로 건강한 생활습관을 만들어보세요.',
-  },
+  title: 'PosturAI - AI 자세 교정 솔루션',
+  description: '30초 만에 자세를 분석하고 개선하는 AI 솔루션',
 }
 
 export const viewport = {
@@ -33,7 +26,28 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="antialiased bg-gray-50">
+      <head>
+        {/* Google Ads 추적 스크립트 */}
+        {process.env.NEXT_PUBLIC_GOOGLE_ADS_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ADS_ID}');
+                `,
+              }}
+            />
+          </>
+        )}
+      </head>
+      <body className={notoSansKR.className}>
         {children}
       </body>
     </html>
