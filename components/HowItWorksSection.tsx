@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Camera, Scan, Dumbbell, TrendingUp, ArrowRight } from 'lucide-react'
 import PreorderModal from './PreorderModal'
+import { trackButtonClick } from '@/lib/analytics'
 
 export default function HowItWorksSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -38,7 +39,11 @@ export default function HowItWorksSection() {
     }
   ]
 
-  const handleCTAClick = () => {
+  const handleCTAClick = async (buttonText: string) => {
+    // Track button click first
+    await trackButtonClick(buttonText, 'HowItWorksSection')
+    
+    // Then open modal
     setIsModalOpen(true)
   }
 
@@ -158,7 +163,7 @@ export default function HowItWorksSection() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
-                  onClick={handleCTAClick}
+                  onClick={() => handleCTAClick('무료로 시작하기')}
                   className="btn-primary flex items-center justify-center"
                 >
                   <Camera className="w-5 h-5 mr-2" />
@@ -166,7 +171,7 @@ export default function HowItWorksSection() {
                 </button>
                 
                 <button 
-                  onClick={handleCTAClick}
+                  onClick={() => handleCTAClick('데모 영상 보기')}
                   className="btn-secondary"
                 >
                   데모 영상 보기

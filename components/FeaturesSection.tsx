@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { Brain, Eye, Target, BarChart3, Shield, Zap } from 'lucide-react'
 import PreorderModal from './PreorderModal'
+import { trackButtonClick } from '@/lib/analytics'
 
 export default function FeaturesSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -46,7 +47,11 @@ export default function FeaturesSection() {
     }
   ]
 
-  const handleCTAClick = () => {
+  const handleCTAClick = async (buttonText: string) => {
+    // Track button click first
+    await trackButtonClick(buttonText, 'FeaturesSection')
+    
+    // Then open modal
     setIsModalOpen(true)
   }
 
@@ -115,7 +120,7 @@ export default function FeaturesSection() {
               </div>
               
               <button 
-                onClick={handleCTAClick}
+                onClick={() => handleCTAClick('무료로 시작하기')}
                 className="mt-8 bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 무료로 시작하기

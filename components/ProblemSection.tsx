@@ -1,200 +1,182 @@
 'use client'
 
 import React, { useState } from 'react'
-import { AlertTriangle, Clock, TrendingDown, Users, Heart, Zap } from 'lucide-react'
+import { AlertTriangle, Clock, DollarSign, Users, Target } from 'lucide-react'
 import PreorderModal from './PreorderModal'
+import { trackButtonClick } from '@/lib/analytics'
 
 export default function ProblemSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
-
+  
   const problems = [
     {
-      icon: <AlertTriangle className="w-8 h-8 text-red-600" />,
-      title: "목 디스크 진행",
-      description: "거북목 자세로 인한 경추 압박",
-      timeframe: "6개월 내 악화",
-      severity: "심각",
-      stats: "사무직 78% 경험"
+      icon: <Users className="w-8 h-8 text-red-600" />,
+      stat: "78%",
+      title: "사무직 근로자",
+      description: "목과 어깨 통증을 겪고 있습니다",
+      color: "text-red-600"
     },
     {
-      icon: <TrendingDown className="w-8 h-8 text-orange-600" />,
-      title: "어깨 불균형",
-      description: "한쪽 어깨가 올라가거나 말린 상태",
-      timeframe: "3개월 내 고착화",
-      severity: "중간",
-      stats: "재택근무자 85% 해당"
+      icon: <DollarSign className="w-8 h-8 text-orange-600" />,
+      stat: "₩2.4M",
+      title: "평균 수술 비용",
+      description: "디스크 수술 시 발생하는 비용입니다",
+      color: "text-orange-600"
     },
     {
-      icon: <Users className="w-8 h-8 text-yellow-600" />,
-      title: "허리 통증",
-      description: "장시간 앉아있기로 인한 요추 변형",
-      timeframe: "1년 내 만성화",
-      severity: "높음",
-      stats: "성인 90% 경험"
+      icon: <Clock className="w-8 h-8 text-yellow-600" />,
+      stat: "6시간",
+      title: "일일 앉아있는 시간",
+      description: "척추 건강에 심각한 영향을 미칩니다",
+      color: "text-yellow-600"
     },
     {
-      icon: <Heart className="w-8 h-8 text-purple-600" />,
-      title: "순환 장애",
-      description: "자세 불량으로 인한 혈액순환 저하",
-      timeframe: "즉시 영향",
-      severity: "중간",
-      stats: "하루 6시간+ 좌식"
+      icon: <Target className="w-8 h-8 text-green-600" />,
+      stat: "3주",
+      title: "평균 개선 기간",
+      description: "적절한 교정 운동으로 개선 가능합니다",
+      color: "text-green-600"
     }
   ]
 
-  const handleCTAClick = () => {
+  const handleCTAClick = async (buttonText: string) => {
+    // Track button click first
+    await trackButtonClick(buttonText, 'ProblemSection')
+    
+    // Then open modal
     setIsModalOpen(true)
   }
 
   return (
     <>
-      <section className="section-padding bg-gradient-to-br from-red-50 to-orange-50">
+      <section className="section-padding bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50">
         <div className="container-custom">
           <div className="text-center mb-16">
             <div className="inline-flex items-center bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Clock className="w-4 h-4 mr-2" />
-              지금 이 순간에도 진행 중인 문제
+              <AlertTriangle className="w-4 h-4 mr-2" />
+              현대인의 자세 문제, 더 이상 방치할 수 없습니다
             </div>
             
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              <span className="text-red-600">매일 6시간</span> 앉아있는 당신,
+              <span className="text-red-600">매일 아침 목이 아파서 깨는</span>
               <br />
-              <span className="gradient-text">몸이 보내는 경고 신호</span>를 무시하고 계신가요?
+              일상을 끝내세요
             </h2>
-            
             <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-              "그냥 조금 결리는 것 뿐"이라고 생각하시나요? 
+              지금 이 순간에도 잘못된 자세로 인해 당신의 척추는 조금씩 망가지고 있습니다. 
               <br className="hidden md:block" />
-              <strong className="text-red-600">이미 당신의 몸은 돌이킬 수 없는 변화를 겪고 있습니다.</strong>
+              <strong>하지만 아직 늦지 않았습니다.</strong>
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {problems.map((problem, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow border-l-4 border-red-500">
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
                 <div className="mb-4">
                   {problem.icon}
+                </div>
+                <div className={`text-3xl font-bold mb-2 ${problem.color}`}>
+                  {problem.stat}
                 </div>
                 <h3 className="text-lg font-semibold text-secondary-900 mb-2">
                   {problem.title}
                 </h3>
-                <p className="text-secondary-600 text-sm mb-3">
+                <p className="text-secondary-600 text-sm">
                   {problem.description}
                 </p>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-secondary-500">진행 속도</span>
-                    <span className="font-medium text-red-600">{problem.timeframe}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-secondary-500">심각도</span>
-                    <span className="font-medium text-orange-600">{problem.severity}</span>
-                  </div>
-                  <div className="text-xs text-secondary-500 mt-2">
-                    📊 {problem.stats}
-                  </div>
-                </div>
               </div>
             ))}
           </div>
 
-          {/* Story-driven case study */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm mb-16 max-w-4xl mx-auto">
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm max-w-4xl mx-auto">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <Zap className="w-4 h-4 mr-2" />
-                실제 사례: 개발자 김○○씨 (29세)
-              </div>
-              <h3 className="text-2xl font-bold text-secondary-900 mb-4">
-                "2년 전만 해도 괜찮았는데..."
+              <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
+                <span className="text-red-600">위험 신호</span>를 놓치지 마세요
               </h3>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h4 className="font-semibold text-red-600 mb-3">2년 전 (2022년)</h4>
-                <div className="bg-green-50 rounded-lg p-4">
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      가끔 목이 뻣뻣한 정도
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      스트레칭으로 금세 회복
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      운동 후 컨디션 좋음
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h4 className="font-semibold text-red-600 mb-3">현재 (2024년)</h4>
-                <div className="bg-red-50 rounded-lg p-4">
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      매일 아침 목 통증으로 기상
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      두통과 어깨 결림 일상화
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      <strong>목 디스크 진단 (C5-C6)</strong>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 p-6 bg-yellow-50 rounded-lg border border-yellow-200">
-              <p className="text-yellow-800 font-medium text-center">
-                💡 <strong>의사 소견:</strong> "2년 전에 교정했다면 3주면 충분했을 텐데, 
-                지금은 최소 6개월 치료가 필요합니다."
+              <p className="text-secondary-600 text-lg">
+                이런 증상이 있다면 즉시 자세 점검이 필요합니다
               </p>
             </div>
-          </div>
 
-          {/* Urgency with concrete numbers */}
-          <div className="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl p-8 md:p-12 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-6">
-              <span className="text-red-600">지금 확인하지 않으면</span>
-              <br />
-              당신도 같은 길을 걷게 됩니다
-            </h3>
-            
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="text-center bg-white rounded-lg p-4">
-                <div className="text-3xl font-bold text-red-600 mb-2">89%</div>
-                <p className="text-sm text-secondary-600">목과 어깨 통증으로<br />일상생활 지장</p>
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">목과 어깨 통증</h4>
+                    <p className="text-sm text-secondary-600">아침에 일어날 때 목이 뻣뻣하고 어깨가 무겁다</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">두통과 눈의 피로</h4>
+                    <p className="text-sm text-secondary-600">컴퓨터 작업 후 머리가 아프고 눈이 피곤하다</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">허리 통증</h4>
+                    <p className="text-sm text-secondary-600">오래 앉아있으면 허리가 아프고 뻣뻣하다</p>
+                  </div>
+                </div>
               </div>
-              <div className="text-center bg-white rounded-lg p-4">
-                <div className="text-3xl font-bold text-orange-600 mb-2">₩2,400만</div>
-                <p className="text-sm text-secondary-600">척추 수술 평균 비용<br />(재활 기간 6개월)</p>
-              </div>
-              <div className="text-center bg-white rounded-lg p-4">
-                <div className="text-3xl font-bold text-red-600 mb-2">5년</div>
-                <p className="text-sm text-secondary-600">자세 불량으로 인한<br />평균 수명 단축</p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">거북목 증상</h4>
+                    <p className="text-sm text-secondary-600">목이 앞으로 나오고 어깨가 둥글게 말린다</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">집중력 저하</h4>
+                    <p className="text-sm text-secondary-600">자세 불편함으로 인해 업무 집중이 어렵다</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                  <div>
+                    <h4 className="font-semibold text-secondary-900">수면 장애</h4>
+                    <p className="text-sm text-secondary-600">목과 어깨 통증으로 잠을 제대로 못 잔다</p>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            <div className="bg-yellow-100 border border-yellow-300 rounded-lg p-4 mb-6">
-              <p className="text-yellow-800 font-medium text-center">
-                ⚠️ <strong>지금 당장 확인하지 않으면, 내년에는 더 심각한 상태가 될 수 있습니다</strong>
+
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="w-6 h-6 text-red-600 mt-1" />
+                <div>
+                  <h4 className="font-semibold text-red-800 mb-2">
+                    실제 개발자의 이야기
+                  </h4>
+                  <p className="text-red-700 text-sm mb-2">
+                    "2년 전부터 목 통증이 시작되었는데, 병원에서 일자목 진단을 받았습니다. 
+                    처음엔 단순한 근육 통증인 줄 알았는데, 이제는 디스크 초기 단계라고 하네요."
+                  </p>
+                  <p className="text-red-700 text-sm font-medium">
+                    - 실제 개발자 A씨 (29세)
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <button 
+                onClick={() => handleCTAClick('내 자세 상태 긴급 점검하기')}
+                className="bg-red-600 text-white font-semibold py-4 px-8 rounded-lg hover:bg-red-700 transition-colors inline-flex items-center"
+              >
+                <AlertTriangle className="w-5 h-5 mr-2" />
+                내 자세 상태 긴급 점검하기
+              </button>
+              <p className="text-sm text-secondary-500 mt-3">
+                30초면 충분합니다. 지금 바로 확인해보세요.
               </p>
             </div>
-            
-            <button 
-              onClick={handleCTAClick}
-              className="btn-primary mx-auto"
-            >
-              내 자세 상태 긴급 점검하기
-            </button>
           </div>
         </div>
       </section>

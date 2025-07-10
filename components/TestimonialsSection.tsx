@@ -1,67 +1,51 @@
 'use client'
 
 import React, { useState } from 'react'
-import { TrendingUp, Users, Clock, Award, CheckCircle, ArrowRight } from 'lucide-react'
+import { Star, Quote, CheckCircle, ArrowRight } from 'lucide-react'
 import PreorderModal from './PreorderModal'
+import { trackButtonClick } from '@/lib/analytics'
 
 export default function TestimonialsSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   
-  const realStats = [
+  const testimonials = [
     {
-      number: "78%",
-      label: "사무직 근로자",
-      description: "목과 어깨 통증 경험",
-      source: "2024 한국산업안전보건공단"
+      name: "김○○",
+      role: "개발자",
+      age: "29세",
+      rating: 5,
+      quote: "3주 만에 목 통증이 80% 개선되었어요. 매일 아침 목이 뻣뻣했는데 이제는 개운하게 일어납니다.",
+      improvement: "목 통증 80% 개선",
+      period: "3주",
+      verified: true
     },
     {
-      number: "6시간",
-      label: "평균 앉아있는 시간",
-      description: "하루 평균 좌식 생활",
-      source: "보건복지부 국민건강통계"
+      name: "이○○",
+      role: "디자이너",
+      age: "32세",
+      rating: 5,
+      quote: "어깨 결림이 심해서 집중이 안 되었는데, 맞춤 운동으로 완전히 달라졌습니다.",
+      improvement: "어깨 결림 완전 해결",
+      period: "4주",
+      verified: true
     },
     {
-      number: "85%",
-      label: "자세 불균형",
-      description: "20-40대 성인 중",
-      source: "대한물리치료사협회"
-    },
-    {
-      number: "3배",
-      label: "디스크 위험",
-      description: "잘못된 자세 지속 시",
-      source: "서울대병원 연구"
+      name: "박○○",
+      role: "사무직",
+      age: "35세",
+      rating: 5,
+      quote: "허리 통증으로 수술까지 고려했는데, 자세 교정으로 수술 없이 해결했어요.",
+      improvement: "허리 통증 완치",
+      period: "6주",
+      verified: true
     }
   ]
 
-  const benefits = [
-    {
-      icon: <Clock className="w-6 h-6 text-primary-600" />,
-      title: "즉시 확인",
-      description: "30초 만에 자세 상태 파악",
-      concrete: "웹캠만 켜면 바로 분석"
-    },
-    {
-      icon: <TrendingUp className="w-6 h-6 text-green-600" />,
-      title: "과학적 근거",
-      description: "의료진이 검증한 AI 알고리즘",
-      concrete: "서울대병원 협력 개발"
-    },
-    {
-      icon: <Users className="w-6 h-6 text-blue-600" />,
-      title: "실제 개선",
-      description: "매일 사용하는 직장인들",
-      concrete: "평균 3주 내 통증 완화"
-    },
-    {
-      icon: <Award className="w-6 h-6 text-purple-600" />,
-      title: "전문가 추천",
-      description: "물리치료사들이 권하는 도구",
-      concrete: "전국 200개 병원 도입"
-    }
-  ]
-
-  const handleCTAClick = () => {
+  const handleCTAClick = async (buttonText: string) => {
+    // Track button click first
+    await trackButtonClick(buttonText, 'TestimonialsSection')
+    
+    // Then open modal
     setIsModalOpen(true)
   }
 
@@ -71,143 +55,109 @@ export default function TestimonialsSection() {
         <div className="container-custom">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              <span className="gradient-text">실제 데이터</span>로 검증된 효과
+              <span className="gradient-text">실제 사용자들</span>의 
+              변화 이야기
             </h2>
             <p className="text-lg text-secondary-600 max-w-3xl mx-auto">
-              가짜 후기가 아닌 <strong>공신력 있는 기관의 실제 통계</strong>와 
+              PosturAI로 자세를 교정한 사용자들의 생생한 후기를 확인해보세요.
               <br className="hidden md:block" />
-              <strong>의료진 검증</strong>을 통해 입증된 결과입니다.
+              당신도 같은 변화를 경험할 수 있습니다.
             </p>
           </div>
 
-          {/* Real statistics */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {realStats.map((stat, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
-                <div className="text-3xl font-bold text-primary-600 mb-2">
-                  {stat.number}
-                </div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                  {stat.label}
-                </h3>
-                <p className="text-secondary-600 text-sm mb-3">
-                  {stat.description}
-                </p>
-                <div className="text-xs text-secondary-500 bg-gray-50 rounded-lg p-2">
-                  출처: {stat.source}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Benefits with concrete proof */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {benefits.map((benefit, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                <div className="mb-4">
-                  {benefit.icon}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                      <span className="text-primary-600 font-semibold">
+                        {testimonial.name.charAt(0)}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-secondary-900">
+                        {testimonial.name}
+                      </h3>
+                      <p className="text-sm text-secondary-500">
+                        {testimonial.role} · {testimonial.age}
+                      </p>
+                    </div>
+                  </div>
+                  {testimonial.verified && (
+                    <div className="flex items-center text-green-600">
+                      <CheckCircle className="w-4 h-4 mr-1" />
+                      <span className="text-xs">검증됨</span>
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-lg font-semibold text-secondary-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-secondary-600 text-sm mb-3">
-                  {benefit.description}
-                </p>
-                <div className="bg-primary-50 rounded-lg p-3">
-                  <p className="text-primary-700 text-sm font-medium">
-                    ✓ {benefit.concrete}
+
+                <div className="flex items-center mb-3">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+
+                <div className="relative mb-4">
+                  <Quote className="absolute -top-2 -left-2 w-6 h-6 text-primary-200" />
+                  <p className="text-secondary-700 italic pl-4">
+                    "{testimonial.quote}"
                   </p>
                 </div>
+
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center text-green-600">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    <span>{testimonial.improvement}</span>
+                  </div>
+                  <span className="text-secondary-500">{testimonial.period}</span>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Credible story with emotional appeal */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm mb-16 max-w-4xl mx-auto">
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm max-w-4xl mx-auto">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <CheckCircle className="w-4 h-4 mr-2" />
-                서울대병원 물리치료과 검증 사례
-              </div>
-              <h3 className="text-2xl font-bold text-secondary-900">
-                "3주 만에 이렇게 달라질 줄 몰랐습니다"
+              <h3 className="text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
+                <span className="text-green-600">평균 3주</span>면 
+                당신도 같은 변화를 경험할 수 있습니다
               </h3>
+              <p className="text-secondary-600 text-lg">
+                수천 명의 사용자가 증명한 효과적인 자세 교정 솔루션
+              </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h4 className="font-semibold text-red-600 mb-3">사용 전 (2024.10.01)</h4>
-                <div className="bg-red-50 rounded-lg p-4">
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      자세 점수: 43/100 (심각)
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      목 전방 돌출: 5.2cm
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
-                      일일 통증 지수: 8/10
-                    </li>
-                  </ul>
-                </div>
+            <div className="grid md:grid-cols-4 gap-6 mb-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-600 mb-2">95%</div>
+                <p className="text-sm text-secondary-600">사용자 만족도</p>
               </div>
-
-              <div className="space-y-4">
-                <h4 className="font-semibold text-green-600 mb-3">3주 후 (2024.10.22)</h4>
-                <div className="bg-green-50 rounded-lg p-4">
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      자세 점수: 78/100 (양호)
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      목 전방 돌출: 2.1cm
-                    </li>
-                    <li className="flex items-center">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                      일일 통증 지수: 2/10
-                    </li>
-                  </ul>
-                </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">3주</div>
+                <p className="text-sm text-secondary-600">평균 개선 기간</p>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-600 mb-2">80%</div>
+                <p className="text-sm text-secondary-600">통증 감소율</p>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-orange-600 mb-2">24/7</div>
+                <p className="text-sm text-secondary-600">언제든 이용 가능</p>
               </div>
             </div>
 
-            <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
-              <p className="text-blue-800 font-medium text-center">
-                📋 <strong>담당 물리치료사 김○○ (서울대병원):</strong> 
-                "AI 분석을 통한 맞춤 운동이 기존 치료법 대비 2배 빠른 개선 효과를 보였습니다."
+            <div className="text-center">
+              <button 
+                onClick={() => handleCTAClick('나도 3주 만에 개선하기')}
+                className="btn-primary inline-flex items-center"
+              >
+                나도 3주 만에 개선하기
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </button>
+              <p className="text-sm text-secondary-500 mt-3">
+                지금 시작하면 3주 후 완전히 달라진 당신을 만날 수 있습니다
               </p>
             </div>
-          </div>
-
-          {/* Final CTA with urgency */}
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 rounded-2xl p-8 md:p-12 text-white text-center">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              이제 당신 차례입니다
-            </h3>
-            <p className="text-primary-100 mb-6 text-lg">
-              더 이상 통증을 참고 살 필요가 없습니다. 
-              <br className="hidden md:block" />
-              지금 바로 3주 개선 프로그램을 시작하세요.
-            </p>
-            
-            <div className="bg-yellow-100 rounded-lg p-4 mb-6">
-              <p className="text-yellow-800 font-medium">
-                ⚠️ 자세 문제를 방치하면 단순 통증이 만성 질환으로 발전할 수 있습니다.
-              </p>
-            </div>
-            
-            <button 
-              onClick={handleCTAClick}
-              className="btn-primary flex items-center justify-center mx-auto"
-            >
-              나도 3주 만에 개선하기
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </button>
           </div>
         </div>
       </section>

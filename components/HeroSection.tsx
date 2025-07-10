@@ -3,11 +3,16 @@
 import React, { useState } from 'react'
 import { Camera, Sparkles, ArrowRight, AlertTriangle, Clock } from 'lucide-react'
 import PreorderModal from './PreorderModal'
+import { trackButtonClick } from '@/lib/analytics'
 
 export default function HeroSection() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleCTAClick = () => {
+  const handleCTAClick = async (buttonText: string) => {
+    // Track button click first
+    await trackButtonClick(buttonText, 'HeroSection')
+    
+    // Then open modal
     setIsModalOpen(true)
   }
 
@@ -62,7 +67,7 @@ export default function HeroSection() {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <button 
-                  onClick={handleCTAClick}
+                  onClick={() => handleCTAClick('30초 만에 자세 점수 확인하기')}
                   className="btn-primary flex items-center justify-center group"
                 >
                   <Camera className="w-5 h-5 mr-2" />
@@ -71,7 +76,7 @@ export default function HeroSection() {
                 </button>
                 
                 <button 
-                  onClick={handleCTAClick}
+                  onClick={() => handleCTAClick('실제 분석 영상 보기')}
                   className="btn-secondary"
                 >
                   실제 분석 영상 보기
